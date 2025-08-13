@@ -1,40 +1,66 @@
-(function(){
-  const form = document.querySelector('form[data-telegram="true"]') || document.getElementById('leadForm');
-  if(!form){ console.warn('Telegram form not found'); return; }
-  const statusEl = document.getElementById('formStatus') || (function(){let p=document.createElement('p');p.id='formStatus';p.className='status';form.appendChild(p);return p;})();
-
-  async function postJSON(url, data){
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(data)
+// Submit handler: sends form JSON to Netlify Function and handles success/error.
+(function () {
+  function findForm() {
+    const marked = document.querySelector('form[data-telegram="true"]');
+    if (marked) return marked;
+    const forms = document.querySelectorAll("form");
+    return forms[forms.length - 1] || null;
+  }
+  function successUrl(form) {
+    return form?.getAttribute("data-success") || "/success.html";
+  }
+  async function post(payload) {
+    const res = await fetch("/.netlify/functions/telegram", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
     const text = await res.text();
-    let json; try{ json = JSON.parse(text); }catch(_){}
-    if(!res.ok){ const err = new Error('HTTP '+res.status); err.detail = json||text; throw err; }
-    return json||text;
+    let json;
+    try { json = JSON.parse(text); } catch { json = { raw: text }; }
+    if (!res.ok) {
+      throw new Error("telegram function error: " + text);
+    }
+    return json;
   }
-
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    statusEl.className='status'; statusEl.textContent='Отправляем…';
-
-    const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
-
-    if(payload.website && payload.website.trim()!==''){
-      statusEl.textContent='Спасибо!'; form.reset(); return;
+  function ensureStatusEl(form) {
+    let st = document.getElementById("form-ok");
+    if (!st) {
+      st = document.createElement("div");
+      st.id = "form-ok";
+      st.style.cssText="margin:10px 0;padding:10px;border-radius:8px;background:#0e1b12;color:#cfe9d1;border:1px solid #244a2a";
+      form.parentNode.insertBefore(st, form);
     }
+    return st;
+  }
+  function bind() {
+    const form = findForm();
+    if (!form) return;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusEl = ensureStatusEl(form);
+      statusEl.style.display = "block";
+      statusEl.textContent = "Отправляем…";
 
-    try{
-      const r = await postJSON('/.netlify/functions/telegram', payload);
-      console.debug('telegram function response:', r);
-      statusEl.className='status ok'; statusEl.textContent='Успешно отправлено!';
-      setTimeout(()=>{ window.location.href='/success.html'; }, 500);
-    }catch(err){
-      console.error('telegram function error:', err, err.detail);
-      statusEl.className='status err'; 
-      statusEl.textContent='Ошибка отправки. '+ (err.detail && err.detail.error ? err.detail.error : 'Проверьте токен/chat_id в Netlify.');
-    }
-  });
+      const fd = new FormData(form);
+      const payload = Object.fromEntries(fd.entries());
+      if (payload.website && payload.website.trim() !== "") {
+        statusEl.textContent = "Спасибо!";
+        form.reset?.();
+        return;
+      }
+      try {
+        await post(payload);
+        statusEl.textContent = "Успешно отправлено!";
+        setTimeout(() => { window.location.href = successUrl(form); }, 400);
+        form.reset?.();
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Ошибка отправки. Проверьте консоль.";
+      }
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bind);
+  } else { bind(); }
 })();
