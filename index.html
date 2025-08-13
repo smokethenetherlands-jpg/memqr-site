@@ -1,174 +1,41 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MemQR — Вечная память по QR</title>
-<meta name="description" content="Памятная плашка из оргстекла с QR-кодом и онлайн-страница памяти: фото, видео, документы и воспоминания.">
-<style>
-:root{
-  --bg:#0f1115; --fg:#e8eaf0; --muted:#a9aebb; --card:#151821; --line:#232735;
-  --brand:#2b64ff; --ok:#25D366; --tg:#2a2f3a; --warn:#ffd166;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:#9fc1ff;text-decoration:none}
-.wrapper{max-width:1100px;margin:0 auto;padding:24px}
-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.logo{font-weight:900;letter-spacing:.3px}
-.btn{display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700}
-.btn--brand{background:var(--brand);color:#fff}
-section{padding:26px 0}
-.hero{text-align:center;padding-top:12px}
-h1{font-size:36px;margin:2px 0 8px}
-.sub{color:var(--muted);max-width:780px;margin:0 auto 18px}
-.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(250px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-.card b{display:block;margin-bottom:6px}
-.center{text-align:center}
-.sec-title{font-size:22px;font-weight:800;margin:2px 0 14px;text-align:center}
-.gallery{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:12px}
-.g-item{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:14px;min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
-.steps{counter-reset:st;display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}
-.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
-.step:before{counter-increment:st;content:counter(st)'.';position:absolute;left:12px;top:10px;color:var(--warn);font-weight:900}
-.pricing{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:16px}
-.price{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}
-.price h3{margin:8px 0 6px}
-.price .rub{font-size:28px;font-weight:900;margin:6px 0 12px}
-.testis{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}
-.t{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--muted)}
-.faq{max-width:900px;margin:0 auto}
-.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
-.hr{height:1px;background:var(--line);margin:18px 0}
-footer{color:#8d92a0;text-align:center;padding:20px 0}
-.small{font-size:13px;color:var(--muted)}
-.form{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-label{display:block;font-weight:700;margin:8px 0 6px}
-input,textarea{width:100%;background:#0f1118;border:1px solid var(--line);color:var(--fg);padding:10px;border-radius:10px}
-textarea{min-height:110px;resize:vertical}
-.form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:900px){
-  .grid,.gallery,.steps,.pricing,.testis,.form .row{grid-template-columns:1fr}
-  h1{font-size:28px}
-}
-.partners{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}
-.pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#1d2330;color:#c9ceda;font-size:12px;margin-bottom:8px}
-.success{max-width:720px;margin:0 auto 12px;padding:12px;border:1px solid #244a2a;background:#0e1b12;color:#cfe9d1;border-radius:12px;display:none}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MemQR — форма заявки</title>
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0b0d12;color:#e7e9ee;margin:0}
+    .wrap{max-width:960px;margin:0 auto;padding:24px}
+    .card{background:#111520;border:1px solid #1e2230;border-radius:16px;padding:16px;margin:24px 0}
+    h1{font-size:32px;margin:24px 0}
+    input,textarea,button{width:100%;box-sizing:border-box;background:#0e1220;color:#e7e9ee;border:1px solid #2a2f40;border-radius:10px;padding:12px 14px}
+    label{display:block;margin:8px 0 6px 2px;color:#aab2c5}
+    button{cursor:pointer}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .status{font-size:14px;color:#9aa3b2;margin-top:8px}
+    .status.err{color:#ff6b6b}
+    .status.ok{color:#33dd88}
+  </style>
 </head>
 <body>
-<div class="wrapper">
-  <nav>
-    <div class="logo">MemQR</div>
-  </nav>
-
-  <section class="hero">
-    <h1>Вечная память по QR</h1>
-    <p class="sub">Плашка из оргстекла с QR → онлайн‑страница памяти: фото, видео, документы, истории. Один скан — доступ навсегда.</p>
-    <div class="actions">
-      <a class="btn btn--brand" href="/gagarin">Демо перехода</a>
+  <div class="wrap">
+    <h1>Заявка</h1>
+    <div class="card">
+      <form id="leadForm" data-telegram="true">
+        <div class="row">
+          <div><label>Имя</label><input name="name" placeholder="Ваше имя" required></div>
+          <div><label>Телефон/Telegram</label><input name="contact" placeholder="@username или номер" required></div>
+        </div>
+        <div style="margin-top:12px"><label>Комментарий</label><textarea name="message" rows="5" placeholder="Ваш запрос..."></textarea></div>
+        <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+          <label>Website</label><input name="website" autocomplete="off" tabindex="-1">
+        </div>
+        <div style="margin-top:14px"><button type="submit">Отправить заявку</button></div>
+        <p class="status" id="formStatus" role="status"></p>
+      </form>
     </div>
-    <div class="grid">
-      <div class="card"><b>1. QR‑плашка</b>УФ‑печать на оргстекле, 10+ лет службы. Эстетично и надёжно.</div>
-      <div class="card"><b>2. Страница памяти</b>Фото, видео, документы, воспоминания. Доступна 24/7 с любого устройства.</div>
-      <div class="card"><b>3. Динамическая ссылка</b>Можно менять платформу без замены физического QR — табличка остаётся прежней.</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-title">Примеры</div>
-    <div class="gallery">
-      <div class="g-item">Фото плашки 1 (подставь своё)</div>
-      <div class="g-item">Фото плашки 2</div>
-      <div class="g-item">Видео скана QR</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-title">Как это работает</div>
-    <div class="steps">
-      <div class="step"><b>Заказ</b> Заполняете заявку, присылаете фото и материалы.</div>
-      <div class="step"><b>Подготовка</b> Делаем страницу памяти, согласуем дизайн плашки, печатаем.</div>
-      <div class="step"><b>Установка</b> Вы получаете плашку и QR. Скан → доступ к памяти навсегда.</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-title">Тарифы</div>
-    <div class="pricing">
-      <div class="price">
-        <h3>Базовый</h3>
-        <div class="rub">4 900 ₽</div>
-        <div class="small">Плашка + страница памяти, 30 фото, 1 видео, поддержка публикации.</div>
-      </div>
-      <div class="price">
-        <h3>Премиум</h3>
-        <div class="rub">8 900 ₽</div>
-        <div class="small">Дизайн страницы, неограниченно фото/видео, помощь со сбором материалов.</div>
-      </div>
-      <div class="price">
-        <h3>Годовая поддержка</h3>
-        <div class="rub">500 ₽</div>
-        <div class="small">Обновления страницы, техподдержка, перенос при смене платформы.</div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-title">Отзывы</div>
-    <div class="testis">
-      <div class="t">«Спасибо! Теперь у всей семьи единая страница, где хранятся фото и истории. Плашка выглядит очень аккуратно.»</div>
-      <div class="t">«Сканируешь — и сразу открывается биография и альбом. Сделали быстро и бережно.»</div>
-      <div class="t">«QR на памятнике – современно и уважительно. Родные за границей тоже могут смотреть.»</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-title">Партнёрам</div>
-    <div class="partners">
-      <div class="pcard">
-        <span class="badge">Для бюро</span>
-        +10–20% к среднему чеку без складских остатков. Делаем макеты под ваш бренд.
-      </div>
-      <div class="pcard">
-        <span class="badge">White‑label</span>
-        Плашки и страницы могут быть полностью под вашей маркой. Мы — на бэкграунде.
-      </div>
-      <div class="pcard">
-        <span class="badge">Процессы</span>
-        Шаблоны ТЗ, договоры, инструкции для менеджеров. Срок запуска — 3–5 дней.
-      </div>
-    </div>
-    <p class="center small" style="margin-top:10px">Напишите, вышлю партнёрский кит: примеры, цены, условия.</p>
-  </section>
-
-  <div class="hr"></div>
-
-  <section class="center">
-    <div class="sec-title">Заявка</div>
-    <div id="form-ok" class="success">Заявка отправлена. Мы свяжемся с вами в ближайшее время.</div>
-    <p class="sub">Оставьте контакты — ответим в Telegram/WhatsApp. Форма подключена к Netlify Forms.</p>
-    <form name="lead" class="form" id="leadForm" data-telegram="true" data-success="/success.html">
-      <input type="hidden" name="form-name" value="lead">
-      <p style="display:none">
-        <label>Не заполнять: <input name="bot-field"></label>
-      </p>
-      <div class="row">
-        <div><label>Имя</label><input type="text" name="name" required></div>
-        <div><label>Телефон/Telegram</label><input type="text" name="contact" required></div>
-      </div>
-      <label>Комментарий</label>
-      <textarea name="message" placeholder="Кого увековечиваем? Есть ли уже материалы?"></textarea>
-      <div style="margin-top:12px;text-align:right">
-        <button class="btn btn--brand" type="submit">Отправить заявку</button>
-      </div>
-    </form>
-  </section>
-
-  <footer>© MemQR • «Память, которую можно коснуться» • <a href="https://t.me/smokethe_netherlands" target="_blank">@smokethe_netherlands</a></footer>
-</div>
+  </div>
+  <script src="/public/js/telegram-submit.js"></script>
 </body>
 </html>
